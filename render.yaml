@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: taskflow
+    runtime: node
+    region: singapore
+    plan: free
+    buildCommand: npm --prefix client ci && npm --prefix client run build && npm --prefix server ci --omit=dev
+    startCommand: npm --prefix server start
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
